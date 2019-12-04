@@ -42,8 +42,60 @@
 	\label{solution-design}
 	
 		\subsection{Web Scraping}
+		For scholarships, I plan to scrape the web for specifically Computer Science scholarships and automatically extract details and fill out fields which will create an easily searchable and filterable database of scholarships. I plan to use Topic Modeling to summarize descriptions to reduce reading and search time for relevant scholarships. The following information will be extracted for each scholarship:
+		\begin{Demographic Requirements}
+			\item age, gender, physical location
+			\item diversity: veteran, disabled, race
+			\item legacy student
+			\item major, career interest
+		\end{Demographic Requirements}
+	
+			\begin{Application Requirements}
+				\item transcripts, essays, letters of recommendation
+			\end{Application Requirements}
+		
+			\begin{Information }
+			\item award amount
+			\item title, desription, link
+			\item deadline (HST)
+			\item contact information
+		\end{Information }
+		
+		
+		For internships in addition to regular referrals from advisors (see section below) I will supplement the internship database with scraped data from job board sites. The following information will be extracted for each internship:
+		
+		\begin{Information }
+			\item title, desription, link
+			\item paid? if so, rate
+			\item link, contact information
+		\end{Information }
+		
+		\begin{Application Requirements}
+			\item skills (languages, technologies) required
+			\subitem this will match to the student profile Interests
+			\item transcripts, essays, letters of recommendation
+		\end{Application Requirements}
+	
+			\begin{Demographic Requirements}
+		\item age, gender, physical location
+		\item diversity: veteran, disabled, race
+		\item graduation date
+		\item major, career interest
+	\end{Demographic Requirements}
+		
+		
+		\subsection{Email Forwards to Opportunities}
+		
 		
 		\subsection{Recommendation and Profile Matching}
+		Each student should fill out their profile to the fullest to ensure the best recommendations. Their profile will consist of their Major, Careers, Interests (see below how it can be translated to internship skills), and Demographic Information. 
+		
+		For internships, students with similar Interests, Opportunities, or Classes as the internship Skills requirements will have a recommendation score.
+		
+		Verifying Skills:
+		Some students may just list Interests as a curiosity interest, not something they actually know yet, so when a student selects an interest, an additional question can be selected "Do you know this already?" " KNOWN SKILL vs INTEREST"
+		
+		
 		
 		\subsection{Dates, Calendars, and a Priority System}
 		
