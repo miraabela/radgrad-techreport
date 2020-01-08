@@ -4,8 +4,9 @@
 \usepackage{hyperref}
 \usepackage[square,numbers]{natbib}
 \usepackage[nottoc,numbib]{tocbibind}
+\usepackage{outlines}
 
-\title{Integrating a Recommendation System for Scholarships \& Internships along with Prioritized Opportunities}
+\title{Integrating a Recommendation and Prioritization System for Scholarships, Internships, and Advisor Opportunities}
 \author{Mirabela Medallon \\ Information and Computer Sciences \\ University of Hawaii}
 
 \begin{document}
@@ -16,110 +17,121 @@
 	\section{Problem Statement}
 	\label{introduction}
 	
-	Please view the following \href{https://drive.mindmup.com/map/1B_krIFKYAHRDOuSgDn2jVU5e9uZPPjw_}{MindMap} for a better overview 
+	Currently, the opportunity database is populated manually through Google Search or word of mouth from students who previously participated in the event or internship. The Opportunity Explorer is also not sorted by the deadline, nor does it show the status of it. For example, if a deadline for an internship application was coming up, the student may not see it right away. It also does not check whether the application is still open or closed, or if the event has passed. The Opportunity Explorer does sort the list based on Interests profile match, but it doesn’t say whether or not the student is a good candidate match. I believe the data that RadGrad already has (student classes, interests, opportunities profile) is valuable and can be used for expanding the system, which I will outline in the system overview section. RadGrad also does not have a scholarship database.
 	
-	\subsection{Priority of Opportunities}
-	When looking for events and opportunities, a student should be aware of the most urgent opportunity first, which is one with a close deadline or an event that only happens once. This allows them to efficiently make use of their time when searching and applying for opportunities. This prevents them from spending time combing through huge lists while the deadline of a opportunity of big importance to them passes, because they don't see it in time. 
-	
-	Currently, in the ICS Department, we are made aware of upcoming events usually through our department advisor's emails,  the Discord group, or with flyers. Our current advisor is retiring soon, and he won't be forwarding all the valuable emails and events anymore. Also, sometimes important announcements may get lost in the sea of emails we receive. Additionally, some email forwards that go to the whole ICS Undergraduate mailing list are not applicable to everyone. 
-	
-	In the current RadGrad system, the Explorer doesn't indicate which opportunities are currently open for applications and doesn't show the deadlines. 
+	When looking for events and opportunities, a student should be aware of the most urgent opportunity first, which is one with a close deadline or an event that only happens once. This allows them to efficiently make use of their time when searching and applying for opportunities. This prevents them from spending time combing through huge lists while the deadline of a opportunity of big importance to them passes, because they don’t see it in time.
+	In the current RadGrad system, the Explorer doesn’t indicate which opportunities are currently open for applications and doesn’t show the deadlines.
 	
 	
-	Solution: RadGrad users fill out profile. Save the future advisor time. Have them forward emails directly to RadGrad, which we will handle and post in a central system for students to search through. This allows them to see everything upcoming in one place, instead of searching through emails. Only relevant announcements will be prioritized
+	One aspect of our ICS department that can be improved is the notification of Opportunities from our advisor to the students. Currently, as college students we receive heaps of emails, and sometimes we can become numb to the noise and miss an important opportunity by not checking every email. Our advisor does have good intentions when he forwards every email from companies looking for students for internships or entry-level jobs, upcoming events, class information, and announcements. However, it just adds to the clutter in our inboxes and sometimes gets lost. The emails are sent to the entire ICS mailing list including all grade levels, which is un-targeted and sometimes irrelevant to many people.
 	
-	\subsection{Scholarships}
+	The data that RadGrad doesn’t import from STAR is the student demographic data.
+	In many scholarship postings, there are demographic requirements that must be met, such as location, gender, and diversity. When searching for scholarships, many lists online are unstructured and only have the title and description, but no structured fields for whether or not it requires you to meet a certain requirement. So, sometimes I spend time combing through lists, taking time to read the description and find more information, only to realize that it does not apply to me. As a student, I just want to know a few key things about the scholarship to decide whether or not to invest time to apply.
 	
-	Many scholarship sites have lists but they are unstructured and take very long to read through. As a student, I just want to know a few key things about the scholarship to decide whether or not to invest time to apply. Most websites only highlight the title, amount, and a paragraph of the description. Details such as deadlines, demographic requirements (age, gender, veteran, disabled, legacy, race, location, etc), application requirements (transcripts, essays, letters of recommendation, etc) are not easily highlighted. Reading through every single scholarship description website is very time consuming, and I only am searching for a few details.
-	
-	
-	\subsection{Internships}
-	
-
 	
 	\section{High Level Goals}
 	\label{Goals}
-	\begin{itemize}
-		\item  Better matching for employers, students fill out profile, we recommend students for opportunity
-		\item Increase RadGrad interaction \& engagement
-		\item Central place for ICS department information
-		\item Track more of student's undergrad activity, better for resume generation
-		\item Minimize Advisor workload
-		\item  Increased connection between interactions (classes, opportunities, internship/scholarship search, announcements/ notifications)
-		\item Easier search for students
-	\end{itemize}
+	\begin{outline}
+		\1  Better matching and quicker responses for local employers looking for student hires
+		\1  Facilitate opportunity searching for students
+		\1 Increase RadGrad interaction \& engagement
+		\1 Central place for ICS department information
+		\1 Track more of student's undergrad activity, better for resume generation and a holistic picture
+		\1 Minimize Advisor workload
+		\1  Increased connection between interactions (classes, opportunities, internship/scholarship search, announcements/ notifications)
+	\end{outline}
+	\newpage
 	
 	
 	
 	
-	\section{Proposed Solution Design}
-	\label{solution-design}
+	\section{System Overview}
+	\label{system-overview}
+	As a high-level overview, I plan to create a system with four components: Emails, Scholarships, Internships, and ICS Class Descriptions. Each of these components will be processed using data scraping and NLP algorithms. Additionally, a Skills field, which is different from Interests as it is previously learned knowledge, would be added to a student’s profile in the RadGrad system.
 	
-		\subsection{Web Scraping}
-		For scholarships, I plan to scrape the web for specifically Computer Science scholarships and automatically extract details and fill out fields which will create an easily searchable and filterable database of scholarships. I plan to use Topic Modeling to summarize descriptions to reduce reading and search time for relevant scholarships. The following information will be extracted for each scholarship:
-		
-		\textbf{Demographic Requirements}
-		\begin{itemize}
-			\item age, gender, physical location
-			\item diversity: veteran, disabled, race
-			\item legacy student
-			\item major, career interest
-		\end{itemize}
+	When a student’s data from RadGrad is imported (Courses, Interests, Opportunities), the ICS Class Descriptions component will be used to parse Skills out of the classes the student previously took. The Opportunities (internships, Hackathons, workshops) that a student has completed will be parsed for Skills as well. Since RadGrad doesn’t import STAR demographic data, the system would prompt the student to opt-in to fill out a demographic profile for better Opportunity recommendations. After parsing potential Skills from the student’s courses and Opportunities, it will attempt to auto-complete their Skills profile and ask the student to confirm or delete the suggestions. From there, using the Scholarships, Internships, and Email components, their Explorer will be customized to show Opportunities more relevant to them as a candidate and reduce their search time. This not only benefits the students, but the Advisor and local companies as well. In the Emails component, instead of the Advisor forwarding every Opportunity to the whole ICS mailing list, the Advisor will forward the email to a dedicated account that feeds it to an ML algorithm. The ML algorithm will categorize the email by Opportunity type (event, internship/job, workshop, announcement, etc) and parse information related to the type of opportunity (date, details, job title, company, description, skills required, etc). Then, only students with a high profile match will receive a notification of this Opportunity. This reduces work for the advisor and provides quicker response time to the local companies searching for a qualified student. Students also benefit from less clutter and more relevant notifications. 
 	
-			\textbf{Application Requirements}
-		\begin{itemize}
-			\item transcripts, essays, letters of recommendation
-		\end{itemize}
-		
-		\textbf{Information}
-		\begin{itemize}
-			\item award amount
-			\item title, desription, link
-			\item deadline (HST)
-			\item contact information
-		\end{itemize}
-		
-		
-		For internships in addition to regular referrals from advisors (see section below) I will supplement the internship database with scraped data from job board sites. The following information will be extracted for each internship:
-		
-		\textbf{Demographic Requirements}
-		\begin{itemize}
-			\item title, desription, link
-			\item paid? if so, rate
-			\item link, contact information
-		\end{itemize}
-		
-		\textbf{Application Requirements}
-		\begin{itemize}
-			\item skills (languages, technologies) required
-				\subitem this will match to the student profile Interests
-			\item transcripts, essays, letters of recommendation
-		\end{itemize}
+	Should the project run into time constraints, an alternative to building an ML algorithm is to manually tag keywords/skills in the ICS Descriptions and Emails as they come.
 	
-		\textbf{Information}
-		\begin{itemize}
-			\item age, gender, physical location
-			\item diversity: veteran, disabled, race
-			\item graduation date
-			\item major, career interest
-		\end{itemize}
-		
-		
-		\subsection{Email Forwards to Opportunities}
-		
-		
-		\subsection{Recommendation and Profile Matching}
-		Each student should fill out their profile to the fullest to ensure the best recommendations. Their profile will consist of their Major, Careers, Interests (see below how it can be translated to internship skills), and Demographic Information. 
-		
-		For internships, students with similar Interests, Opportunities, or Classes as the internship Skills requirements will have a recommendation score.
-		
-		Verifying Skills:
-		Some students may just list Interests as a curiosity interest, not something they actually know yet, so when a student selects an interest, an additional question can be selected "Do you know this already?" " KNOWN SKILL vs INTEREST"
-		
-		
-		
-		\subsection{Dates, Calendars, and a Priority System}
-		
+	
+	\section{Implementation Details}
+	\label{implementation-details}
+	
+	\subsection{Scholarships Component}
+	
+	[[ Currently, a collaboration with scholarsapp.com is being worked on. Please see meeting notes in Slack ]]
+	
+	This component will scrape the list of scholarship websites and parse the following requirements for each scholarship: gender, ethnicity, location, grade level, disability, veteran status, GPA, application requirements (letters of recommendation, transcripts, essay).
+	
+	\subsubsection{Opt-In Demographic Profile}
+	This profile will ask the student to provide the following data: age, gender, location, citizenship, race (for diversity scholarships), veteran status, disability, major, and general career interests.
+	
+	
+	\subsection{Internships Component}
+	The Internships component will scrape indeed.com mand other job board sites to parse the following information: Skills required, and details (company, deadline, posting date, links).
+	
+	Based on the student’s demographic profile, they can also enter a field for the locations to search internships in. From there, the Internship component will scrape the narrowed results from the website
+	
+	\subsection{Emails Component}
+	In this component, a forwarded email from the Advisor will be parsed to retrieve the following information:
+	\begin{outline}
+		\1 Email Type
+		\2 (announcement, opportunity [subtypes: internship/job, scholarship, event])
+		\1 Information related to each type:
+		\2 Announcement
+		\3 Tags: classes, campus, deadline, general
+		\2 Opportunity
+		\3 Internship/Job
+		\4 company, job title, details, deadline, contact information, link
+		\5 From the details / link: parse the Skills required
+		\3 Event
+		\4 date, title, tags
+		\4 Tags: volunteer, social, appointment, workshop, general
+		\3 Scholarship
+		\4 deadline, details, amount, link
+		\5 From the details / link, parse the demographic profile required using the Scholarship component
+	\end{outline}
+	In order to reduce errors, the parser will ignore the email signature, confidentiality notices, etc.
+	
+	
+	\subsection{ICS Descriptions Component}
+	This component will scrape data syllabi and data from http://courses.ics.hawaii.edu/index.html and http://www.catalog.hawaii.edu/courses/departments/ics.htm. From the descriptions and learning outcomes, it will parse relevant Skills the student learns from each class.
+	
+	
+	
+	\subsection{NLP}
+	\begin{outline}
+		\1 Dependency Parsing
+		\1 Named Entity Recognition
+		\1 Co-reference resolution
+		\1 Latent Dirichlet Allocation
+		\1 TF-IDF
+	\end{outline}
+	
+	
+	\subsection{Links}
+	\begin{outline}
+		\1 Web Scraping
+		\2 https://scrapy.org/
+		\1 Natural Language Processing
+		\2 https://spacy.io/
+		\2 https://scikit-learn.org
+		\1 Internships
+		\2 https://student.internships.com/
+		\2 https://opensource.indeedeng.io/api-documentation/
+		\1 ICS Class Descriptions
+		\2 http://courses.ics.hawaii.edu/index.html
+		\2 http://www.catalog.hawaii.edu/courses/departments/ics.htm
+		\1 Scholarships
+		\2 https://scholarsapp.com/
+		\2 https://www.unigo.com/
+	\end{outline}
+	
+	
+	\section{Evaluation}
+	\label{evaluation}
+	After development is completed, the effectiveness of my system can be evaluated through student surveys. The survey will ask questions about how accurate the recommended Opportunities RadGrad shows are relevant to them, and how helpful the system is. It will ask questions about email clutter and what their experience is for discovering Opportunities.
+	
 	
 \end{document}
 
